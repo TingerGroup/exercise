@@ -159,6 +159,5 @@ var c = [
 //printMatrix(matrixAdjoint(b));
 //printMatrix(matrixTranspose(a));
 //printMatrix(matrixInverse(b));
-
 //printMatrix(matrixCofactor(b,1,3));
 //console.log(matrixDeterminant(b,3));
