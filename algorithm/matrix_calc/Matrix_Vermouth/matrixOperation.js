@@ -1,6 +1,6 @@
 "use strict";
 
-function printMatrix(matrix){
+function printMatrix(matrix) {
     for (var i = 0; i < matrix.length; i++) {
         for (var j = 0; j < matrix[i].length; j++) {
             process.stdout.write(matrix[i][j] + ' ');
@@ -97,7 +97,32 @@ function matrixInverse(a) {
 };
 
 //单位矩阵
-//TODO
+function matrixIdentity(n) {
+    var result = new Array();
+    if (n > 0) {
+        if (n == 1) {
+            result[0] = [];
+            result[0][0] = 1;
+        }
+        else {
+            for (var i = 0; i < n; i++) {
+                result[i] = [];
+                for (var j = 0; j < n; j++) {
+                    if (i == j) {
+                        result[i][j] = 1;
+                    }
+                    else {
+                        result[i][j] = 0;
+                    }
+                }
+            }
+        }
+    }
+    else {
+        throw new TypeError("Invalid parameter");
+    }
+    return result;
+};
 
 //矩阵余子式
 function matrixCofactor(a,i,j) {
@@ -105,7 +130,7 @@ function matrixCofactor(a,i,j) {
     if (a[0].length == a.length && i <= a.length && j <= a.length) {
         for (var m = 0; m < a.length - 1; m++) {
             result[m] = [];
-            for (var n = 0; n < a[m].length - 1; n++) {
+            for (var n = 0; n < a.length - 1; n++) {
                 var h = (m < (i - 1)) ? m : m + 1;
                 var k = (n < (j - 1)) ? n : n + 1;
                 result[m][n] = a[h][k];
@@ -113,7 +138,7 @@ function matrixCofactor(a,i,j) {
         }
     }
     else {
-        throw new TypeError("Invalid parameter");
+        throw new TypeError("Invalid parameters");
     }
     return result;
 };
@@ -137,9 +162,6 @@ function matrixDeterminant(a,n) {
     return result;
 };
 
-//矩阵秩
-//TODO
-
 var a = [
     [1,2,3],
     [4,5,6],
@@ -159,5 +181,6 @@ var c = [
 //printMatrix(matrixAdjoint(b));
 //printMatrix(matrixTranspose(a));
 //printMatrix(matrixInverse(b));
+//printMatrix(matrixIdentity(7));
 //printMatrix(matrixCofactor(b,1,3));
 //console.log(matrixDeterminant(b,3));
