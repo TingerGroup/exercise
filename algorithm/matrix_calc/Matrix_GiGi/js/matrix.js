@@ -225,3 +225,82 @@ function getDet(data,xindex,yindex,n){
     }      
     return det;
 }
+
+/**
+
+    cofactor
+
+*/
+
+function cofactor(data,xindex,yindex){
+
+    var result = new Array();
+
+    if(isMatrix(data) && (data.length == data[0].length)){
+        if(xindex>=0 && xindex<data.length && yindex>=0 && yindex<data[0].length){
+
+            for(var i=0; i<data.length; i++){
+                result[i] = new Array();
+                for(var j=0;j<data[0].length; j++){
+                    result[i][j] = data[i][j];
+                }
+            }
+
+            result.splice(xindex,1);
+
+            for(var i=0; i<result[0].length; i++){
+                result[i].splice(yindex,1);
+            }
+        }
+    }
+    return detOfMatrix(result);
+}
+
+/**
+    
+    adjoint matrix
+
+*/
+
+function adjointMatrix(data){
+
+    var result = new Array();
+
+    if(isMatrix(data) && (data.length == data[0].length)){
+
+        for(var i=0; i<data.length; i++){
+            result[i] = new Array();
+            for(var j=0;j<data[0].length; j++){
+                result[i][j] = Math.pow(-1,i+j) * cofactor(data,i,j);
+            }
+        }
+    }
+
+    return result;
+}
+
+/**
+
+    inverse matrix
+
+*/
+function inverseMatrix(data){
+
+    var result = new Array();
+    if(isMatrix(data) && (data.length == data[0].length)){
+        if(0 != detOfMatrix(data)){
+
+            for(var i=0; i<data.length; i++){
+                result[i] = new Array();
+                for(var j=0; j<data[0].length; j++){
+                    
+                    var temp = adjointMatrix(data);
+                    result[i][j] = temp[i][j] / detOfMatrix(data);
+                }
+            }
+
+        }
+    }
+    return result;
+}
+

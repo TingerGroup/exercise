@@ -140,6 +140,28 @@ function myFunc(){
     var result = "<table>"+rankOfMatrix(data3)+"</table>";
     document.write(result);
 
+    //cofactor
+
+    mHtml = "<br/><table>矩阵3(a12)的余子式：</table>";
+    document.write(mHtml);
+    var result = "<table>"+cofactor(data3,1,2)+"</table>";
+    document.write(result);
+
+    // adjoint matrix
+
+    mHtml = "<br/><table>矩阵3的伴随矩阵：</table>";
+    document.write(mHtml);
+    var result = adjointMatrix(data3);
+    showMatrix(result);
+
+    //inverse matrix
+
+    mHtml = "<br/><table>矩阵3的逆矩阵：</table>";
+    document.write(mHtml);
+    var result = inverseMatrix(data3);
+    showMatrix(result);
+
+
 }
 
 /**
