@@ -1,5 +1,6 @@
 "use strict";
 
+/*  矩阵输出  */
 function printMatrix(matrix) {
     for (var i = 0; i < matrix.length; i++) {
         for (var j = 0; j < matrix[i].length; j++) {
@@ -9,27 +10,30 @@ function printMatrix(matrix) {
     }
 };
 
-//矩阵相加
+/*  矩阵相加  */
 function matrixAddition(a,b) {
     var result = new Array();
+
     if (a.length == b.length && a[0].length == b[0].length) {
         for (var i = 0; i < a.length; i++) {
             result[i] = [];
             for (var j = 0; j < a[i].length; j++) {
-                //result[i][j].push(a[i][j] + b[i][j]);
                 result[i][j] = a[i][j] + b[i][j];
             }
         }
     }
+
     else {
         throw new TypeError("Invalid parameters");
     }
+
     return result;
 };
 
-//矩阵相乘
+/*  矩阵相乘  */
 function matrixMultiplication(a,b) {
     var result = new Array();
+
     if (a[0].length == b.length) {
         for (var i = 0; i < a.length; i++) {
             result[i] = [];
@@ -42,15 +46,18 @@ function matrixMultiplication(a,b) {
             }
         }
     }
+
     else {
         throw new TypeError("Invalid parameters");
     }
+
     return result;
 };
 
-//伴随矩阵
+/*  伴随矩阵  */
 function matrixAdjoint(a) {
     var result = new Array();
+
     if (a[0].length == a.length) {
         for (var i = 0; i < a.length; i++) {
             result[i] = [];
@@ -60,27 +67,32 @@ function matrixAdjoint(a) {
         }
         result = matrixTranspose(result);
     }
+
     else {
         throw new TypeError("Invalid parameter");
     }
+
     return result;
 };
 
-//矩阵转置
+/*  矩阵转置  */
 function matrixTranspose(a) {
     var result = new Array();
+
     for (var i = 0; i < a[0].length; i++) {
         result[i] = [];
         for (var j = 0; j < a.length; j++) {
             result[i][j] = a[j][i];
         }
     }
+
     return result;
 };
 
-//逆矩阵
+/*  逆矩阵  */
 function matrixInverse(a) {
     var result = new Array();
+
     if (a[0].length == a.length && matrixDeterminant(a,a.length) != 0) {
         for (var i = 0; i < a.length; i++) {
             result[i] = [];
@@ -90,16 +102,19 @@ function matrixInverse(a) {
             }
         }
     }
+
     else {
         throw new TypeError("Invalid parameter");
     }
+
     return result;
 };
 
-//单位矩阵
+/*  单位矩阵  */
 function matrixIdentity(n) {
     var result = new Array();
-    if (n > 0) {
+
+    if (n > 0 && n % 1 == 0) {
         if (n == 1) {
             result[0] = [];
             result[0][0] = 1;
@@ -118,15 +133,18 @@ function matrixIdentity(n) {
             }
         }
     }
+
     else {
         throw new TypeError("Invalid parameter");
     }
+
     return result;
 };
 
-//矩阵余子式
+/*  矩阵余子式  */
 function matrixCofactor(a,i,j) {
     var result = new Array();
+
     if (a[0].length == a.length && i <= a.length && j <= a.length) {
         for (var m = 0; m < a.length - 1; m++) {
             result[m] = [];
@@ -137,15 +155,18 @@ function matrixCofactor(a,i,j) {
             }
         }
     }
+
     else {
         throw new TypeError("Invalid parameters");
     }
+
     return result;
 };
 
-//行列式
+/*  行列式  */
 function matrixDeterminant(a,n) {
     var result = 0;
+
     if (a[0].length == a.length && n == a.length) {
         if (n == 2) {
             result = (a[0][0] * a[1][1]) - (a[0][1] * a[1][0]);
@@ -156,31 +177,144 @@ function matrixDeterminant(a,n) {
             }
         }
     }
+
     else {
         throw new TypeError("Invalid parameters");
     }
+
     return result;
 };
 
+/*  交换矩阵i行与j行  */
+function matrixSwapRows(a,i,j) {
+    var result = new Array();
+
+    if (i <= a.length && j <= a.length) {
+        for (var m = 0; m < a.length; m++) {
+            result[m] = [];
+            for (var n = 0; n < a[m].length; n++) {
+                if (m == i-1) {
+                    result[m][n] = a[j-1][n];
+                }
+                else {
+                    result[m][n] = (m == j-1) ? a[i-1][n] : a[m][n];
+                }
+            }
+        }
+    }
+
+    else {
+        throw new TypeError("Invalid parameters");
+    }
+
+    return result;
+};
+
+/*  矩阵j行元素加i行元素k倍  */
+function matrixElementaryTransformation(a,k,i,j) {
+    var result = new Array();
+
+    if (i <= a.length && j <= a.length) {
+        for (var m = 0; m < a.length; m++) {
+            result[m] = [];
+            for (var n = 0; n < a[0].length; n++) {
+                if (m == j-1) {
+                    result[m][n] = (a[i-1][n] * k + a[m][n]);
+                }
+                else {
+                    result[m][n] = a[m][n];
+                }
+            }
+        }
+    }
+
+    else {
+        throw new TypeError("Invalid parameters");
+    }
+
+    return result;
+};
+
+/*  矩阵的秩  */
+function matrixRank(a) {
+    var rank = a.length < a[0].length ? a.length : a[0].length;
+
+    if (a.length > a[0].length) {
+        a = matrixTranspose(a);
+    }
+
+    /*  初等变换—>行阶梯矩阵 */
+    for (var i = 0; i < a.length; i++) {
+        if (a[i][i] != 0) {
+            for (var j = i+1; j < a.length; j++) {
+                a = matrixElementaryTransformation(a,-(a[j][i] / a[i][i]),i+1,j+1);
+            }
+        }
+        else {
+            for (var m = i+1; m < a.length; m++) {
+                if (a[m][i] != 0) {
+                    a = matrixSwapRows(a,i+1,m+1);
+                    i = i - 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    console.log("行阶梯矩阵：");
+    printMatrix(a);
+
+    loop:
+    for (var m = a.length - 1; m >= 0; m--) {
+        for (var n = 0; n < a[0].length; n++) {
+            if (a[m][n] != 0) {
+                rank = m + 1;
+                return rank;
+                break loop;
+            }
+        }
+    }
+};
+
 var a = [
-    [1,2,3],
-    [4,5,6],
-];
-var b = [
-    [2,3,4],
-    [5,6,7],
-    [1,3,4]
-];
-var c = [
-    [2,3],
-    [5,6]
+    [0,2,3],
+    [3,0,6],
+    [0,0,6]
 ];
 
-//printMatrix(matrixAddition(a,b));
-//printMatrix(matrixMultiplication(a,b));
-//printMatrix(matrixAdjoint(b));
-//printMatrix(matrixTranspose(a));
-//printMatrix(matrixInverse(b));
-//printMatrix(matrixIdentity(7));
-//printMatrix(matrixCofactor(b,1,3));
-//console.log(matrixDeterminant(b,3));
+var b = [
+    [1,3,4],
+    [5,6,18],
+    [1,3,4]
+];
+
+var c = [
+    [2,3,7],
+    [5,6,4]
+];
+
+var d = [
+    [1,1,4,5],
+    [0,6,8,7],
+    [0,0,3,9],
+    [0,0,2,1]
+];
+
+var e = [
+    [1,2,3],
+    [4,5,6],
+    [2,3,4],
+    [5,6,7]
+];
+
+// printMatrix(matrixAddition(a,b));
+// printMatrix(matrixMultiplication(c,b));
+// printMatrix(matrixAdjoint(b));
+// printMatrix(matrixTranspose(a));
+// printMatrix(matrixInverse(b));
+// printMatrix(matrixIdentity(7));
+// printMatrix(matrixCofactor(b,1,3));
+// console.log(matrixDeterminant(b,3));
+// printMatrix(matrixSwapRows(d,1,3));
+// printMatrix(matrixElementaryTransformation(a,-3,1,2));
+console.log(matrixRank(e));
