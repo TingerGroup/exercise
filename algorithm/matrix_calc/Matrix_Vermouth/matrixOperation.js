@@ -242,20 +242,31 @@ function matrixRank(a) {
     if (a.length > a[0].length) {
         a = matrixTranspose(a);
     }
+    var row = a.length;
 
     /*  初等变换—>行阶梯矩阵 */
-    for (var i = 0; i < a.length; i++) {
+    for (var i = 0; i < row; i++) {
         if (a[i][i] != 0) {
-            for (var j = i+1; j < a.length; j++) {
+            for (var j = i+1; j < row; j++) {
                 a = matrixElementaryTransformation(a,-(a[j][i] / a[i][i]),i+1,j+1);
             }
         }
         else {
-            for (var m = i+1; m < a.length; m++) {
+            var flag = true;
+            for (var m = i+1; m < row; m++) {
                 if (a[m][i] != 0) {
                     a = matrixSwapRows(a,i+1,m+1);
                     i = i - 1;
+                    flag = false;
                     break;
+                }
+            }
+            if (flag) {
+                var temp = 0;
+                for (var n = 0; n < row; n++) {
+                    a[i][n] = temp;
+                    a[i][n] = a[row-1][n];
+                    a[row-1][n] = temp;
                 }
             }
         }
@@ -277,14 +288,14 @@ function matrixRank(a) {
 };
 
 var a = [
-    [0,2,3],
-    [3,0,6],
-    [0,0,6]
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
 ];
 
 var b = [
     [1,3,4],
-    [5,6,18],
+    [5,6,7],
     [1,3,4]
 ];
 
@@ -317,4 +328,4 @@ var e = [
 // console.log(matrixDeterminant(b,3));
 // printMatrix(matrixSwapRows(d,1,3));
 // printMatrix(matrixElementaryTransformation(a,-3,1,2));
-console.log(matrixRank(e));
+console.log(matrixRank(a));
