@@ -283,6 +283,9 @@ function matrixRank(a) {
                 return rank;
                 break loop;
             }
+            else {
+                return 0;
+            }
         }
     }
 };
