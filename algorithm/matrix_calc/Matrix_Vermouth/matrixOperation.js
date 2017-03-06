@@ -1,16 +1,24 @@
 "use strict";
 
-/*  矩阵输出  */
-function printMatrix(matrix) {
-    for (var i = 0; i < matrix.length; i++) {
-        for (var j = 0; j < matrix[i].length; j++) {
-            process.stdout.write(matrix[i][j] + ' ');
-        }
-        console.log();
-    }
-};
+/*
+Parameters:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+b -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [1,3,4],
+    [5,6,7],
+    [1,3,4]
+];
 
-/*  矩阵相加  */
+Make sure that the rows of given matrix equals the rows and of
+the other given matrix,so as their columns;
+Returns the result of a added b that expressed by a two-dimensional array;
+*/
 function matrixAddition(a,b) {
     var result = new Array();
 
@@ -24,13 +32,32 @@ function matrixAddition(a,b) {
     }
 
     else {
-        throw new TypeError("Invalid parameters");
+        console.log("Invalid parameters");
     }
 
     return result;
 };
 
-/*  矩阵相乘  */
+/*
+Parameters:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+b -- a mutiplied matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [1,3,4],
+    [5,6,7],
+    [1,3,4]
+];
+
+Make sure that the rows of given mutiplied matrix
+equals the columns of given matrix;
+Returns the result of the multiplication of two matrices that
+expressed by a two-dimensional array;
+*/
 function matrixMultiplication(a,b) {
     var result = new Array();
 
@@ -48,13 +75,25 @@ function matrixMultiplication(a,b) {
     }
 
     else {
-        throw new TypeError("Invalid parameters");
+        console.log("Invalid parameters");
     }
 
     return result;
 };
 
-/*  伴随矩阵  */
+/*
+Parameter:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+
+Make sure that the rows of given matrix equals the columns of given matrix;
+Returns the adjoint matrix of the given matrix that
+expressed by a two-dimensional array;
+*/
 function matrixAdjoint(a) {
     var result = new Array();
 
@@ -62,20 +101,32 @@ function matrixAdjoint(a) {
         for (var i = 0; i < a.length; i++) {
             result[i] = [];
             for (var j = 0;j < a.length;j++) {
-                result[i][j] = Math.pow(-1,i+j) * matrixDeterminant(matrixCofactor(a,i+1,j+1),a.length-1);
+                result[i][j] = Math.pow(-1,i+j) *
+                        matrixDeterminant(matrixCofactor(a,i+1,j+1),a.length-1);
             }
         }
         result = matrixTranspose(result);
     }
 
     else {
-        throw new TypeError("Invalid parameter");
+        console.log("Invalid parameter");
     }
 
     return result;
 };
 
-/*  矩阵转置  */
+/*
+Parameter:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+
+Returns the transpose matrix of the given matrix that
+expressed by a two-dimensional array;
+*/
 function matrixTranspose(a) {
     var result = new Array();
 
@@ -89,7 +140,19 @@ function matrixTranspose(a) {
     return result;
 };
 
-/*  逆矩阵  */
+/*
+Parameter:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+
+Make sure that the rows of given matrix equals the columns of given matrix;
+Returns the inverse matrix of the given matrix that
+expressed by a two-dimensional array;
+*/
 function matrixInverse(a) {
     var result = new Array();
 
@@ -98,19 +161,26 @@ function matrixInverse(a) {
             result[i] = [];
             for (var j = 0; j < a.length; j++) {
                 var k = 1 / matrixDeterminant(a,a.length);
-                result[i][j] = k * Math.pow(-1,i+j) * matrixDeterminant(matrixCofactor(a,j+1,i+1),a.length-1);
+                result[i][j] = k * Math.pow(-1,i+j) *
+                        matrixDeterminant(matrixCofactor(a,j+1,i+1),a.length-1);
             }
         }
     }
 
     else {
-        throw new TypeError("Invalid parameter");
+        console.log("Invalid parameter");
     }
 
     return result;
 };
 
-/*  单位矩阵  */
+/*
+Parameter:
+n -- the order of the identity matrix you wanted,a integer;
+
+Returns a identity matrix of the given order that
+expressed by a two-dimensional array;
+*/
 function matrixIdentity(n) {
     var result = new Array();
 
@@ -135,13 +205,27 @@ function matrixIdentity(n) {
     }
 
     else {
-        throw new TypeError("Invalid parameter");
+        console.log("Invalid parameter");
     }
 
     return result;
 };
 
-/*  矩阵余子式  */
+/*
+Parameters:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+i -- one row number of given matrix that will be deleted;
+j -- one column number of given matrix that will be deleted;
+
+Make sure that the rows of given matrix equals the columns of given matrix;
+Returns the cofactor of the given matrix that
+expressed by a two-dimensional array;
+*/
 function matrixCofactor(a,i,j) {
     var result = new Array();
 
@@ -157,13 +241,25 @@ function matrixCofactor(a,i,j) {
     }
 
     else {
-        throw new TypeError("Invalid parameters");
+        console.log("Invalid parameters");
     }
 
     return result;
 };
 
-/*  行列式  */
+/*
+Parameters:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+n -- the rows of given matrix,a integer;
+
+Make sure that the rows of given matrix equals the columns of given matrix;
+Returns the determinant of the given matrix;
+*/
 function matrixDeterminant(a,n) {
     var result = 0;
 
@@ -173,19 +269,33 @@ function matrixDeterminant(a,n) {
         }
         else {
             for (var i = 0; i < n; i++) {
-                result += a[0][i] * Math.pow(-1,i) * matrixDeterminant(matrixCofactor(a,1,i+1),n-1);
+                result += a[0][i] * Math.pow(-1,i) *
+                          matrixDeterminant(matrixCofactor(a,1,i+1),n-1);
             }
         }
     }
 
     else {
-        throw new TypeError("Invalid parameters");
+        console.log("Invalid parameters");
     }
 
     return result;
 };
 
-/*  交换矩阵i行与j行  */
+/*
+Parameters:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+i -- one row number of given matrix that will be swaped;
+j -- the other row number of given matrix that will be swaped;
+
+Returns the matrix that swaped two rows of the given matrix that
+expressed by a two-dimensional array;
+*/
 function matrixSwapRows(a,i,j) {
     var result = new Array();
 
@@ -204,13 +314,27 @@ function matrixSwapRows(a,i,j) {
     }
 
     else {
-        throw new TypeError("Invalid parameters");
+        console.log("Invalid parameters");
     }
 
     return result;
 };
 
-/*  矩阵j行元素加i行元素k倍  */
+/*
+Parameters:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+k -- ratio;
+i -- one row number of given matrix that will be multiplied by ratio;
+j -- the other row number of given matrix that will be added;
+
+Returns a elementary transformed matrix of the given matrix that
+expressed by a two-dimensional array;
+*/
 function matrixElementaryTransformation(a,k,i,j) {
     var result = new Array();
 
@@ -229,13 +353,23 @@ function matrixElementaryTransformation(a,k,i,j) {
     }
 
     else {
-        throw new TypeError("Invalid parameters");
+        console.log("Invalid parameters");
     }
 
     return result;
 };
 
-/*  矩阵的秩  */
+/*
+Parameter:
+a -- a matrix expressed by a two-dimensional array,shaped as follows:
+[
+    [0,0,3],
+    [0,2,6],
+    [0,0,1]
+];
+
+Returns the rank of the given matrix;
+*/
 function matrixRank(a) {
     var rank = a.length < a[0].length ? a.length : a[0].length;
 
@@ -244,7 +378,6 @@ function matrixRank(a) {
     }
     var row = a.length;
 
-    /*  初等变换—>行阶梯矩阵 */
     for (var i = 0; i < row; i++) {
         if (a[i][i] != 0) {
             for (var j = i+1; j < row; j++) {
@@ -272,9 +405,6 @@ function matrixRank(a) {
         }
     }
 
-    console.log("行阶梯矩阵：");
-    printMatrix(a);
-
     loop:
     for (var m = a.length - 1; m >= 0; m--) {
         for (var n = 0; n < a[0].length; n++) {
@@ -283,52 +413,21 @@ function matrixRank(a) {
                 return rank;
                 break loop;
             }
-            else {
+            else if (m == 0 && n == 2 && a[m][n] == 0) {
                 return 0;
             }
         }
     }
 };
 
-var a = [
-    [0,0,3],
-    [0,2,6],
-    [0,0,1]
-];
-
-var b = [
-    [1,3,4],
-    [5,6,7],
-    [1,3,4]
-];
-
-var c = [
-    [2,3,7],
-    [5,6,4]
-];
-
-var d = [
-    [1,1,4,5],
-    [0,6,8,7],
-    [0,0,3,9],
-    [0,0,2,1]
-];
-
-var e = [
-    [1,2,3],
-    [4,5,6],
-    [2,3,4],
-    [5,6,7]
-];
-
-// printMatrix(matrixAddition(a,b));
-// printMatrix(matrixMultiplication(c,b));
-// printMatrix(matrixAdjoint(b));
-// printMatrix(matrixTranspose(a));
-// printMatrix(matrixInverse(b));
-// printMatrix(matrixIdentity(7));
-// printMatrix(matrixCofactor(b,1,3));
-// console.log(matrixDeterminant(b,3));
-// printMatrix(matrixSwapRows(d,1,3));
-// printMatrix(matrixElementaryTransformation(a,-3,1,2));
-console.log(matrixRank(a));
+module.exports = {
+    matrixAddition          : matrixAddition,
+    matrixMultiplication    : matrixMultiplication,
+    matrixAdjoint           : matrixAdjoint,
+    matrixTranspose         : matrixTranspose,
+    matrixInverse           : matrixInverse,
+    matrixIdentity          : matrixIdentity,
+    matrixCofactor          : matrixCofactor,
+    matrixDeterminant       : matrixDeterminant,
+    matrixRank              : matrixRank
+};
