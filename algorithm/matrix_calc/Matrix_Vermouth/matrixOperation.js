@@ -15,7 +15,7 @@ b -- a matrix expressed by a two-dimensional array,shaped as follows:
     [1,3,4]
 ];
 
-Make sure that the rows of given matrix equals the rows and of
+Make sure that the rows of given matrix equals the rows of
 the other given matrix,so as their columns;
 Returns the result of a added b that expressed by a two-dimensional array;
 */
@@ -90,7 +90,6 @@ a -- a matrix expressed by a two-dimensional array,shaped as follows:
     [0,0,1]
 ];
 
-Make sure that the rows of given matrix equals the columns of given matrix;
 Returns the adjoint matrix of the given matrix that
 expressed by a two-dimensional array;
 */
@@ -149,7 +148,6 @@ a -- a matrix expressed by a two-dimensional array,shaped as follows:
     [0,0,1]
 ];
 
-Make sure that the rows of given matrix equals the columns of given matrix;
 Returns the inverse matrix of the given matrix that
 expressed by a two-dimensional array;
 */
@@ -222,7 +220,6 @@ a -- a matrix expressed by a two-dimensional array,shaped as follows:
 i -- one row number of given matrix that will be deleted;
 j -- one column number of given matrix that will be deleted;
 
-Make sure that the rows of given matrix equals the columns of given matrix;
 Returns the cofactor of the given matrix that
 expressed by a two-dimensional array;
 */
@@ -257,14 +254,16 @@ a -- a matrix expressed by a two-dimensional array,shaped as follows:
 ];
 n -- the rows of given matrix,a integer;
 
-Make sure that the rows of given matrix equals the columns of given matrix;
 Returns the determinant of the given matrix;
 */
 function matrixDeterminant(a,n) {
     var result = 0;
 
     if (a[0].length == a.length && n == a.length) {
-        if (n == 2) {
+        if (n == 1) {
+            result = a[0][0];
+        }
+        else if (n == 2) {
             result = (a[0][0] * a[1][1]) - (a[0][1] * a[1][0]);
         }
         else {
