@@ -25,12 +25,14 @@ function addMatrix(data1,data2){
 
     if(isMatrix(data1) && isMatrix(data2)){
         if((data1.length == data2.length) && (data1[0].length == data2[0].length)){ 
+
             for(var i=0; i<data1.length; i++){
                 result[i] = new Array();
                 for(var j=0; j<data1[0].length; j++){
                     result[i][j] = data1[i][j] + data2[i][j];
                 }
             }
+
         }
     }
     return result;
@@ -61,6 +63,7 @@ function mulMatrix(data1,data2){
 
                 }
             }
+
         }
     }
     return result;
@@ -78,6 +81,7 @@ function transOfMatrix(data){
     var result = new Array();
 
     if(isMatrix(data)){
+
         for(var i=0; i<data[0].length; i++){
             result[i] = new Array();
             for(var j=0; j<data.length; j++){
@@ -126,7 +130,8 @@ function detOfMatrix(data){
                     }
                     result += (temp1 - temp2);
                 }
-            }            
+            } 
+                       
         }
     }
     return result;
@@ -141,15 +146,15 @@ function detOfMatrix(data){
 */
 function rankOfMatrix(data){
 
-    var k = 0;       
+    var k = 0, i=0, j=0;       
     var rows,cols = 0;      
     var zero = 0;
     var mark;
     var maxLen = (data.length<=data[0].length)?data.length:data[0].length;
 
     //the zero matrix
-    for(var i=0;i<data.length;i++){
-        for(var j=0;j<data[0].length;j++){
+    for(i=0;i<data.length;i++){
+        for(j=0;j<data[0].length;j++){
             if(0==data[i][j]){
                 zero++;
             }
@@ -160,16 +165,17 @@ function rankOfMatrix(data){
     }
     
     //the non-zero matrix
+    var det;
     for(k=1; k<maxLen; k++){
 
         mark = true;
         rows = data.length;
         cols = data[0].length;
 
-        for(var i=0; i<rows-k; i++){
-            for(var j=0; j<cols-k; j++){
+        for(i=0; i<rows-k; i++){
+            for(j=0; j<cols-k; j++){
 
-                var det = getDet(data,i,j,k+1);
+                det = getDet(data,i,j,k+1);
 
                 if(0!=detOfMatrix(det)){
                     mark = false;
@@ -183,10 +189,10 @@ function rankOfMatrix(data){
 
         if(mark){
 
-            for(var i=0; i<=rows-k; i++){                   
-                for(var j=0; j<=cols-k; j++){
+            for(i=0; i<=rows-k; i++){                   
+                for(j=0; j<=cols-k; j++){
 
-                    var det = getDet(data,i,j,k);
+                    det = getDet(data,i,j,k);
                     if(0!=detOfMatrix(det)){
                         return k;
                     }
@@ -287,6 +293,7 @@ function adjointMatrix(data){
 function inverseMatrix(data){
 
     var result = new Array();
+    var temp;
     if(isMatrix(data) && (data.length == data[0].length)){
         if(0 != detOfMatrix(data)){
 
@@ -294,7 +301,7 @@ function inverseMatrix(data){
                 result[i] = new Array();
                 for(var j=0; j<data[0].length; j++){
                     
-                    var temp = adjointMatrix(data);
+                    temp = adjointMatrix(data);
                     result[i][j] = temp[i][j] / detOfMatrix(data);
                 }
             }
@@ -304,3 +311,11 @@ function inverseMatrix(data){
     return result;
 }
 
+exports.addMatrix = addMatrix;
+exports.mulMatrix = mulMatrix;
+exports.transOfMatrix = transOfMatrix;
+exports.detOfMatrix = detOfMatrix;
+exports.rankOfMatrix = rankOfMatrix;
+exports.cofactor = cofactor;
+exports.adjointMatrix = adjointMatrix;
+exports.inverseMatrix = inverseMatrix;
