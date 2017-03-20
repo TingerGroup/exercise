@@ -84,7 +84,7 @@ Document.prototype.setItemValue = function(key, new_value) {
 
 Document.prototype.toSave = function() {
     var dataString = [];
-    for (var i = 0; i < this.content.length; i++) {
+    for (var i = 0; i < this.content.length - 1; i++) {
         dataString.push(this.content[i].toSave());
     }
     return dataString.join('');
