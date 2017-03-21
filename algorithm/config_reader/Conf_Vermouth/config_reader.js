@@ -54,6 +54,7 @@ Document.prototype.parseLine = function(data) {
         var dataSplit = data.split(ITEM_EQUAL_CHAR);
         this.content.push(new Item(dataSplit[0],dataSplit[1]));
     }
+    return this.content;
 };
 
 Document.prototype.findItem = function(key) {
@@ -84,8 +85,12 @@ Document.prototype.setItemValue = function(key, new_value) {
 
 Document.prototype.toSave = function() {
     var dataString = [];
-    for (var i = 0; i < this.content.length - 1; i++) {
-        dataString.push(this.content[i].toSave());
+    for (var i = 0; i < this.content.length; i++) {
+        if (i != this.content.length - 1) {
+            dataString.push(this.content[i].toSave());
+        }
+        else if (i == this.content.length - 1 && this.content[i] instanceof Empty) {
+        }
     }
     return dataString.join('');
 };
