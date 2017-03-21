@@ -91,6 +91,9 @@ Document.prototype.toSave = function() {
         }
         else if (i == this.content.length - 1 && this.content[i] instanceof Empty) {
         }
+        else {
+            dataString.push(this.content[i].toSave());
+        }
     }
     return dataString.join('');
 };
