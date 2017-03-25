@@ -68,6 +68,17 @@ Document.prototype.findItem = function(key) {
     return null;
 };
 
+Document.prototype.getItemPosition = function(key) {
+    for (var i = 0; i < this.content.length; i++) {
+        if (this.content[i] instanceof Item) {
+            if (this.content[i].key == key) {
+                return i;
+            }
+        }
+    }
+    return null;
+};
+
 Document.prototype.getItemValue = function(key) {
     if(this.findItem(key)) {
         return this.findItem(key).value;
@@ -79,6 +90,27 @@ Document.prototype.setItemValue = function(key, new_value) {
     if(this.findItem(key)) {
         this.findItem(key).value = new_value;
         return this.findItem(key).value;
+    }
+    return null;
+};
+
+Document.prototype.addItem = function(key, value) {
+    this.content.push(new Item(key, value));
+    return this.content;
+};
+
+Document.prototype.addNote = function(key, content) {
+    if (this.getItemPosition(key)) {
+        this.content.splice(this.getItemPosition(key), 0, new Note(content));
+        return this.content;
+    }
+    return null;
+};
+
+Document.prototype.deleteItem = function(key) {
+    if(this.findItem(key)) {
+        this.findItem(key).key = '# ' + key;
+        return this.findItem(key);
     }
     return null;
 };
@@ -116,7 +148,6 @@ Conf.prototype.init = function(onsuccess, onerror) {
         doc.parse(data.toString());
         onsuccess();
     });
-
 };
 
 Conf.prototype.getItemValue = function(key) {
@@ -125,6 +156,18 @@ Conf.prototype.getItemValue = function(key) {
 
 Conf.prototype.setItemValue = function(key, new_value) {
     return this.document.setItemValue(key, new_value);
+};
+
+Conf.prototype.addItem = function(key, value) {
+    return this.document.addItem(key, value);
+};
+
+Conf.prototype.addNote = function(key, content) {
+    return this.document.addNote(key, content);
+};
+
+Conf.prototype.deleteItem = function(key) {
+    return this.document.deleteItem(key);
 };
 
 Conf.prototype.save = function(onsuccess, onerror) {
