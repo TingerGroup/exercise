@@ -76,41 +76,50 @@ Document.prototype.getItemPosition = function(key) {
             }
         }
     }
-    return null;
+    return -1;
 };
 
 Document.prototype.getItemValue = function(key) {
-    if(this.findItem(key)) {
-        return this.findItem(key).value;
+    var itemToFind = this.findItem(key);
+    if(itemToFind) {
+        return itemToFind.value;
     }
     return null;
 };
 
 Document.prototype.setItemValue = function(key, new_value) {
-    if(this.findItem(key)) {
-        this.findItem(key).value = new_value;
-        return this.findItem(key).value;
+    var itemToUpdate = this.findItem(key);
+    if(itemToUpdate) {
+        itemToUpdate.value = new_value;
+        return itemToUpdate.value;
     }
     return null;
 };
 
 Document.prototype.addItem = function(key, value) {
-    this.content.push(new Item(key, value));
-    return this.content;
+    if (this.getItemPosition(key) == -1) {
+        this.content.push(new Item(key, value));
+        return this.content;
+    }
+    else {
+        console.log('The' + key + 'has already existed.');
+    }
 };
 
 Document.prototype.addNote = function(key, content) {
-    if (this.getItemPosition(key)) {
-        this.content.splice(this.getItemPosition(key), 0, new Note(content));
-        return this.content;
+    var itemPos = this.getItemPosition(key);
+    if (itemPos != -1) {
+        this.content.splice(itemPos, 0, new Note(content));
     }
     return null;
 };
 
 Document.prototype.deleteItem = function(key) {
-    if(this.findItem(key)) {
-        this.findItem(key).key = '# ' + key;
-        return this.findItem(key);
+    var itemToDelete = this.findItem(key);
+    var itemPos = this.getItemPosition(key);
+    if(itemPos != -1) {
+        var note_content = '# ' + itemToDelete.key.toString() + '=' + itemToDelete.value.toString();
+        this.content.splice(itemPos, 1, new Note(note_content));
     }
     return null;
 };
