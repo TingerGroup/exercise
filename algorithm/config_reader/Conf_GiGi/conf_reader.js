@@ -16,7 +16,7 @@ module.exports = ConfigReader;
 
 function ConfigReader(filePath){
 	this.filePath = filePath;
-	this.content = new Array();
+	this.content = new Array();	
 }
 
 /**
@@ -25,7 +25,13 @@ function ConfigReader(filePath){
  */
 
 ConfigReader.prototype.init = function() {
-	// body...
+
+	fs.readFile(this.filePath, 'utf8', (err, data)=>{
+		if(err){
+			throw err;
+		}		
+		this.content = data.split('\n');
+	});	 
 };
 /**
  * An method to get value by specified item
@@ -35,7 +41,18 @@ ConfigReader.prototype.init = function() {
  */
 
 ConfigReader.prototype.getItemValue = function(key) {
-	// body...
+	this.init();
+	//console.log(this.content.length);
+	for(var i = 0; i < this.content.length; i++){
+
+		if(1 == this.content[i].indexOf(key)){
+			var valuePos = this.content[i].indexOf('=');
+			return this.content[i].slice(valuePos);
+		}
+
+	}
+
+	return -1;
 };
 
 /**
@@ -94,7 +111,7 @@ function Note(content){
 
 	this.toSave = toSave;
 	function toSave(){
-		return ("#" + this.content);
+		return ('#' + this.content);
 	}
 }
 
@@ -104,7 +121,7 @@ function Item(key , value){
 
 	this.toSave = toSave;
 	function toSave(){
-		return (this.key + "=" + this.value);
+		return (this.key + '=' + this.value);
 	}
 }
 
