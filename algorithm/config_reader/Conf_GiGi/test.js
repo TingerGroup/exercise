@@ -6,8 +6,10 @@ var conf_reader = require('./conf_reader.js');
 
 var test = new conf_reader(filePath);
 
-//test.init();
-console.log(test.getItemValue('DSHELL'));
+test.init(function(){
+	console.log(test.getItemValue('1DSHELL'));
+});
+
 
 
 

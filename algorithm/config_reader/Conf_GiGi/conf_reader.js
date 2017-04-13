@@ -16,43 +16,24 @@ module.exports = ConfigReader;
 
 function ConfigReader(filePath){
 	this.filePath = filePath;
-	this.content = new Array();	
+	this.content = new Content();
 }
 
-/**
- * An method to parase the configuration file by lines 
- * and init ConfigReader
- */
-
-ConfigReader.prototype.init = function() {
+ConfigReader.prototype.init = function(onsuccess) {
 
 	fs.readFile(this.filePath, 'utf8', (err, data)=>{
 		if(err){
 			throw err;
 		}		
-		this.content = data.split('\n');
-	});	 
+		this.content.getContent(data);
+		onsuccess();
+	});	
 };
-/**
- * An method to get value by specified item
- *
- * @param  {String} key
- * @return {String}
- */
+
+
 
 ConfigReader.prototype.getItemValue = function(key) {
-	this.init();
-	//console.log(this.content.length);
-	for(var i = 0; i < this.content.length; i++){
-
-		if(1 == this.content[i].indexOf(key)){
-			var valuePos = this.content[i].indexOf('=');
-			return this.content[i].slice(valuePos);
-		}
-
-	}
-
-	return -1;
+	return this.content.getItemValue(key);
 };
 
 /**
@@ -69,10 +50,11 @@ ConfigReader.prototype.setItemValue = function(key , value) {
 /**
  * An method to add new item
  *
- * @param {Item} item
+ * @param {String} key
+ * @param {String} value
  */
 
-ConfigReader.prototype.addNewItem = function(item) {
+ConfigReader.prototype.addNewItem = function(key , value) {
 	// body...
 };
 
@@ -105,6 +87,54 @@ ConfigReader.prototype.removeItem = function(key) {
 ConfigReader.prototype.toSave = function() {
 	// body...
 };
+
+/**
+ * An object to describe a configuration file
+ */
+
+function Content(){
+	this.content = new Array();
+}
+
+/**
+ * An method to parse file content by lines
+ */
+
+Content.prototype.getContent = function(data) {
+	this.content = data.split('\n');
+};
+
+/**
+ * An method to get value by specified item
+ *
+ * @param  {String} key
+ * @return {String}
+ */
+
+Content.prototype.getItemValue = function(key) {
+
+	for(var i = 0; i < this.content.length; i++){
+		if(0 == this.content[i].indexOf(key)){
+
+			var valuePos = this.content[i].indexOf('=');
+			return this.content[i].slice(valuePos+1);
+		}
+	}
+	throw new Error('The ' + key + ' is not exited.');
+};
+
+Content.prototype.setItemValue = function(key , value) {
+	// body...
+};
+
+Content.prototype.addNewItem = function(key , value) {
+	// body...
+};
+
+Content.prototype.addItemNote = function(key , value) {
+	// body...
+};
+
 
 function Note(content){
 	this.content = contemt;
