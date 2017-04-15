@@ -1,7 +1,8 @@
-#Description for configuration file#
+Description for configuration file
+==================================
 
-Character set:`utf8`</br>
-A standard configuration file consists of following 2 aspects:</br>
+Character set: `utf8`</br>
+A standard configuration file consists of following 3 aspects:</br>
 
 * **Note**:begin with `#` in each line</br>
 * **Item**:</br>
@@ -19,7 +20,7 @@ KEY=value</br>
 
 ---
 
-#####Leave blank lines between two different items</br>#####
+* **Leave blank lines between two different items**</br>
 For instance:</br>
 
 ---
