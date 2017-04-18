@@ -127,7 +127,6 @@ Content.prototype.addNewItem = function(new_key , new_value) {
 	this.content.push(item.toSave());
 	var string = this.content.join('\n');
 	this.toSave(string);
-
 };
 
 /**
@@ -148,8 +147,7 @@ Content.prototype.addItemNote = function(key , new_note_content) {
 
 	this.content.splice(itemPos,0,note.toSave());
 	var string = this.content.join('\n');
-    this.toSave(string);
-	
+    this.toSave(string);	
 };
 
 /**
@@ -162,12 +160,14 @@ Content.prototype.removeItem = function(key) {
 	
 	var itemPos = this.isExist(key);
 
-	if(itemPos){
-		var note_item = new Note(this.content[itemPos]);
-		this.content[itemPos] = note_item.toSave();
-		var string = this.content.join('\n');
-	    this.toSave(string);
+	if(itemPos < 0){
+		throw new Error('The ' + key + ' is not existed.');
 	}
+	
+	var note_item = new Note(this.content[itemPos]);
+	this.content[itemPos] = note_item.toSave();
+	var string = this.content.join('\n');
+    this.toSave(string);	
 };
 
 /**
@@ -194,7 +194,6 @@ Content.prototype.toSave = function(string) {
 Content.prototype.isExist = function(key) {
 
 	for(var i = 0; i<this.content.length; i++){
-
 		if(0 == this.content[i].indexOf(key)){
 			return i;
 		}
